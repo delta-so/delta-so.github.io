@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FAFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1424" media="(prefers-color-scheme: dark)">
 <title>delta｜ぷよぷよプロプレイヤー 公式サイト</title>
 <meta name="description" content="JeSU公認ぷよぷよプロプレイヤー delta（でるた）の公式サイト。大会の実況・解説、ゲーム体験会でのレクチャー、番組出演など。イベント出演のご依頼はこちらから。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,6 +40,7 @@
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
+/* 端末がダークモードのときだけ暗い配色にする。それ以外は上の明るい配色（PCと同じ）（2026-10-29） */
 @media (prefers-color-scheme:dark){
   :root{
     --page:#0D1424;--paper:#141D31;--ink:#E7ECF4;--muted:#A5B0C3;--line:#27334B;
@@ -112,7 +116,7 @@ h2{font-family:var(--font-head);font-size:clamp(26px,3.4vw,34px);line-height:1.3
 .panel.intro h3{color:var(--page)}
 .panel.intro h3::before{background:#E0A800}
 .intro p{margin:0;font-size:clamp(16px,1.8vw,18px);line-height:2}
-.intro strong{font-weight:700;background:linear-gradient(transparent 62%,rgba(224,168,0,.45) 62%)}
+.intro strong{font-weight:700} /* 黄色の下線ハイライトは削除（2026-10-30 でるたさん指示）。太字は残す */
 @media (max-width:760px){.panel{padding:22px}}
 
 /* 実績の一覧（箇条書き・説明なし） */
@@ -142,6 +146,18 @@ h2{font-family:var(--font-head);font-size:clamp(26px,3.4vw,34px);line-height:1.3
 .card p{margin:0;font-size:14.5px;line-height:1.75;color:var(--muted)}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
 .tags span{font-size:12px;font-weight:700;color:var(--muted);background:var(--page);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+/* タグ（商業施設・子ども向けなど）は非表示（2026-10-30 でるたさん指示）。
+   場所は残して見えなくするだけなので、カードにはタグと同じ大きさの余白が残る。戻すときはこの1行を消す */
+.card .tags{visibility:hidden}
+/* 関連ページへの「リンク ↗」ボタン（2026-10-30 でるたさん決定）
+   ・関連する記事・公式ページがあるカードだけに付ける。カードの右下に置き、別のタブで開く
+   ・ボタンがあるカードは、タグの余白の場所にボタンを置く（カードの高さは変わらない）
+   ・付け方：カードの <div class="tags"> の直前に <a class="card-link" …>リンク<svg…></a> を入れる */
+.card-link{margin-top:auto;align-self:flex-end;display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 12px;border-radius:999px;font-size:13px;font-weight:700;line-height:1;color:var(--brand);background:var(--paper);border:1px solid var(--line);text-decoration:none;transition:border-color .15s,background-color .15s,color .15s}
+.card-link:hover{border-color:var(--brand);background:var(--brand);color:var(--paper)}
+.card-link:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.card-link svg{width:13px;height:13px;flex:none}
+.card-link + .tags{display:none}
 .c-kaisetsu{--cat:var(--c-blue);--cat-bg:var(--c-blue-bg)}
 .c-taiken{--cat:var(--c-green);--cat-bg:var(--c-green-bg)}
 .c-bangumi{--cat:var(--c-red);--cat-bg:var(--c-red-bg)}
@@ -237,29 +253,54 @@ footer a{color:var(--muted)}
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2026-10-11">2026.10</time></div>
           <h3>ぷよぷよeスポーツU-15「ギーゴカップ」SEASON4 スマーク伊勢崎</h3>
           <p>15歳以下のぷよぷよ大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/22476" target="_blank" rel="noopener" aria-label="ぷよぷよeスポーツU-15「ギーゴカップ」SEASON4 スマーク伊勢崎の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>商業施設</span><span>子ども向け</span></div>
         </li>
-        <li class="card c-kaisetsu" data-cat="kaisetsu">
-          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2026-09-26">2026.09</time></div>
+        <li class="card c-bangumi" data-cat="bangumi">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2026-09-26">2026.09</time></div>
           <h3>愛知・名古屋アジア大会eスポーツ競技 日本語中継配信</h3>
           <p>国際大会の中継配信で、ぷよぷよの試合を解説。</p>
+          <a class="card-link" href="https://prtimes.jp/main/html/rd/p/000000226.000039144.html" target="_blank" rel="noopener" aria-label="愛知・名古屋アジア大会eスポーツ競技 日本語中継配信の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>配信</span><span>国際大会</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2026-09-05">2026.09</time></div>
+          <h3>ぷよぷよeスポーツ大会 イオン三好ショッピングセンター</h3>
+          <p>大学が主催するぷよぷよ大会に、ゲストとして出演。</p>
+          <a class="card-link" href="https://puyo-camp.jp/posts/202302" target="_blank" rel="noopener" aria-label="ぷよぷよeスポーツ大会 イオン三好ショッピングセンターの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>大学</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2026-08-22">2026.08</time></div>
+          <h3>愛知・名古屋アジア大会 開催記念イベント イオンモール草津</h3>
+          <p>アジア大会の開催を記念したイベントに、ゲストとして出演。</p>
+          <a class="card-link" href="https://www.mext.go.jp/sports/b_menu/houdou/31/09/1421070_00037.htm" target="_blank" rel="noopener" aria-label="愛知・名古屋アジア大会 開催記念イベント イオンモール草津の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>国際大会</span></div>
         </li>
         <li class="card c-kaisetsu" data-cat="kaisetsu">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2026-08">2026.08</time></div>
           <h3>東三河eスポーツチャレンジ2026</h3>
           <p>愛知県のイベントで、ぷよぷよのエンジョイ大会を解説。</p>
+          <a class="card-link" href="https://www.tees.jp/higashimikawa-esports2026/" target="_blank" rel="noopener" aria-label="東三河eスポーツチャレンジ2026の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>会場</span><span>自治体</span></div>
         </li>
         <li class="card c-guest" data-cat="guest">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2026-07-31">2026.07</time></div>
-          <h3>日本eスポーツ協会「HPSC・eスポーツラボ」メディア発表会</h3>
-          <p>ナショナルトレーニングセンターの新しい設備を、プロ選手として実演。</p>
+          <h3>日本eスポーツ協会「HPSC ESPORTS LAB」メディア発表会</h3>
+          <p>ナショナルトレーニングセンターのメディア発表会にゲスト出演。</p>
+          <a class="card-link" href="https://www.4gamer.net/games/458/G045823/20260804042/" target="_blank" rel="noopener" aria-label="日本eスポーツ協会「HPSC ESPORTS LAB」メディア発表会の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>団体</span><span>報道向け</span></div>
+        </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2026-07-05">2026.07</time></div>
+          <h3>ぷよぷよeスポーツU-15「ギーゴカップ」SEASON4 アリオ橋本</h3>
+          <p>15歳以下のぷよぷよ大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/21044" target="_blank" rel="noopener" aria-label="ぷよぷよeスポーツU-15「ギーゴカップ」SEASON4 アリオ橋本の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>子ども向け</span></div>
         </li>
         <li class="card c-guest" data-cat="guest">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2026-04-24">2026.04</time></div>
-          <h3>BIPROGY労働組合「ぷよっと交流eSportsフェス2026」</h3>
+          <h3>企業交流イベント「ぷよっと交流eSportsフェス2026」</h3>
           <p>企業の労働組合が開いた交流イベントに出演。</p>
           <div class="tags"><span>企業</span><span>交流会</span></div>
         </li>
@@ -267,30 +308,56 @@ footer a{color:var(--muted)}
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2026-02-07">2026.02</time></div>
           <h3>埼玉県「SAITAMA e-sportsリンクフェス2026」</h3>
           <p>埼玉県が主催するeスポーツイベントに、ゲストとして出演。</p>
+          <a class="card-link" href="https://www.saitama-esportslinkfes2026.jp/koshigaya" target="_blank" rel="noopener" aria-label="埼玉県「SAITAMA e-sportsリンクフェス2026」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>会場</span><span>自治体</span></div>
         </li>
-        <li class="card c-taiken" data-cat="taiken">
-          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2026-02-01">2026.02</time></div>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2026-02-01">2026.02</time></div>
           <h3>なごやeスポーツチャレンジ</h3>
           <p>名古屋市の体験イベントで、エキシビションマッチと来場者との対戦企画に出演。</p>
+          <a class="card-link" href="https://www.city.nagoya.jp/kankou/sports/1017416/1043816.html" target="_blank" rel="noopener" aria-label="なごやeスポーツチャレンジの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>商業施設</span><span>自治体</span></div>
         </li>
         <li class="card c-kaisetsu" data-cat="kaisetsu">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2025-12-21">2025.12</time></div>
           <h3>ぷよぷよeスポーツU-15「ギーゴカップ」SEASON3 グランドチャンピオンシップ</h3>
-          <p>15歳以下のぷよぷよ大会の年間決勝で、実況・解説を担当。</p>
+          <p>15歳以下のぷよぷよ大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/19536" target="_blank" rel="noopener" aria-label="ぷよぷよeスポーツU-15「ギーゴカップ」SEASON3 グランドチャンピオンシップの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>会場</span><span>子ども向け</span></div>
         </li>
-        <li class="card c-taiken" data-cat="taiken">
-          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2025-09-23">2025.09</time></div>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2025-09-23">2025.09</time></div>
           <h3>品川区ふるさと納税 返礼品「ぷよぷよプロ選手とのeスポーツイベント体験」</h3>
           <p>参加者への特別レッスンと、プロとの対戦・交流を担当。</p>
+          <a class="card-link" href="https://news.denfaminicogamer.jp/news/2507292c" target="_blank" rel="noopener" aria-label="品川区ふるさと納税 返礼品「ぷよぷよプロ選手とのeスポーツイベント体験」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>自治体</span><span>レッスン</span></div>
+        </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2025-09-14">2025.09</time></div>
+          <h3>ぷよぷよeスポーツU-15「ギーゴカップ」SEASON3 イオンモールむさし村山</h3>
+          <p>15歳以下のぷよぷよ大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/18857" target="_blank" rel="noopener" aria-label="ぷよぷよeスポーツU-15「ギーゴカップ」SEASON3 イオンモールむさし村山の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>子ども向け</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2025-08-16">2025.08</time></div>
+          <h3>日本オリンピックミュージアム eスポーツ展 関連イベント</h3>
+          <p>日本オリンピック委員会のミュージアムで、オリンピアンとぷよぷよで交流。</p>
+          <a class="card-link" href="https://www.joc.or.jp/news/20250821_01.html" target="_blank" rel="noopener" aria-label="日本オリンピックミュージアム eスポーツ展 関連イベントの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>団体</span><span>会場</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2025-07-23">2025.07</time></div>
+          <h3>日本eスポーツ協会 大阪・関西万博 eスポーツイベント</h3>
+          <p>万博会場のeスポーツイベントに、プロ選手として出演。</p>
+          <a class="card-link" href="https://jesu.or.jp/expo2025/performer.html#game04" target="_blank" rel="noopener" aria-label="日本eスポーツ協会 大阪・関西万博 eスポーツイベントの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>団体</span><span>万博</span></div>
         </li>
         <li class="card c-bangumi" data-cat="bangumi">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2025-02-01">2025.02</time></div>
           <h3>セガ公式番組「ぷよの日2025生放送」</h3>
           <p>eスポーツのコーナーに出演し、大会を振り返り。</p>
+          <a class="card-link" href="https://saiganak.com/ja/news/puyo-day-live-broadcast-2025/" target="_blank" rel="noopener" aria-label="セガ公式番組「ぷよの日2025生放送」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>配信</span><span>セガ</span></div>
         </li>
         <li class="card c-taiken" data-cat="taiken">
@@ -299,41 +366,224 @@ footer a{color:var(--muted)}
           <p>セガのeスポーツ体験コーナーで、来場者にぷよぷよの楽しさを紹介。</p>
           <div class="tags"><span>お祭り</span><span>セガ</span></div>
         </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2024-09-21">2024.09</time></div>
+          <h3>ぷよぷよギーゴカップ イオンモールむさし村山</h3>
+          <p>15歳以下のぷよぷよ大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/15922" target="_blank" rel="noopener" aria-label="ぷよぷよギーゴカップ イオンモールむさし村山（2024年）の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>子ども向け</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2024-06">2024.06</time></div>
+          <h3>セガサミーカップ2024 ぷよぷよeスポーツ体験会</h3>
+          <p>ゴルフトーナメントの会場で、ぷよぷよの体験コーナーを担当。</p>
+          <div class="tags"><span>会場</span><span>セガ</span></div>
+        </li>
+        <li class="card c-bangumi" data-cat="bangumi">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2024-01-29">2024.01</time></div>
+          <h3>セガ公式番組「ぷよの日2024生放送」</h3>
+          <p>eスポーツのコーナーに、ゲストとして出演。</p>
+          <a class="card-link" href="https://saiganak.com/ja/news/puyo-day-live-broadcast-2024/" target="_blank" rel="noopener" aria-label="セガ公式番組「ぷよの日2024生放送」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>配信</span><span>セガ</span></div>
+        </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2023-12-03">2023.12</time></div>
+          <h3>ぷよぷよギーゴカップ イオンモールむさし村山</h3>
+          <p>15歳以下のぷよぷよ大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/13847" target="_blank" rel="noopener" aria-label="ぷよぷよギーゴカップ イオンモールむさし村山（2023年）の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>子ども向け</span></div>
+        </li>
         <li class="card c-bangumi" data-cat="bangumi">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2023-11-18">2023.11</time></div>
           <h3>フジテレビONE「いいすぽ！ぷよぷよeスポーツNo.1決定戦」</h3>
           <p>テレビ番組の大会企画に出場し、準優勝。</p>
           <div class="tags"><span>テレビ</span></div>
         </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2023-10-21">2023.10</time></div>
+          <h3>ぷよぷよギーゴカップ グランベリーパーク</h3>
+          <p>15歳以下のぷよぷよ大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/13653" target="_blank" rel="noopener" aria-label="ぷよぷよギーゴカップ グランベリーパークの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>子ども向け</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2023-10-10">2023.10</time></div>
+          <h3>港南台イロドリフェスタ</h3>
+          <p>横浜市・港南台のショッピングモールにて、ぷよぷよの体験コーナーを担当。</p>
+          <div class="tags"><span>お祭り</span><span>商業施設</span></div>
+        </li>
         <li class="card c-taiken" data-cat="taiken">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2023-10-07">2023.10</time></div>
           <h3>Sapporo Game Camp 2023「ぷよぷよプログラミング講座」</h3>
           <p>ぷよぷよを題材にしたプログラミング講座で、講師を担当。</p>
+          <a class="card-link" href="https://www.4gamer.net/games/999/G999905/20231013060/" target="_blank" rel="noopener" aria-label="Sapporo Game Camp 2023「ぷよぷよプログラミング講座」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>講座</span></div>
+        </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2023-08-19">2023.08</time></div>
+          <h3>全国都道府県対抗eスポーツ選手権 2023 KAGOSHIMA ぷよぷよ部門 東北ブロック代表決定戦</h3>
+          <p>都道府県対抗の全国大会に向けた予選で、試合を解説。</p>
+          <a class="card-link" href="https://www.sega.jp/topics/detail/230815_1/" target="_blank" rel="noopener" aria-label="全国都道府県対抗eスポーツ選手権 2023 KAGOSHIMA ぷよぷよ部門 東北ブロック代表決定戦の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>大会</span><span>自治体</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2023-08-16">2023.08</time></div>
+          <h3>ぷよぷよeスポーツファミリーカップ 所沢市役所</h3>
+          <p>市役所で開かれたファミリー向けの大会に、プロ選手として出演。</p>
+          <div class="tags"><span>自治体</span><span>家族向け</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2023-06">2023.06</time></div>
+          <h3>セガサミーカップ2023 ぷよぷよeスポーツ体験会</h3>
+          <p>北海道のゴルフトーナメントの会場で、ぷよぷよの体験コーナーを担当。</p>
+          <div class="tags"><span>会場</span><span>セガ</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2023-05-14">2023.05</time></div>
+          <h3>DreamHack Japan 2023 ぷよぷよeスポーツ プロ・アマ タッグ2on2トーナメント</h3>
+          <p>プロとアマチュアがペアを組む大会に、プロ選手として出場。</p>
+          <div class="tags"><span>会場</span><span>大会</span></div>
         </li>
         <li class="card c-bangumi" data-cat="bangumi">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2023-04">2023.04</time></div>
           <h3>BSJapanext「三四郎のGG道場」</h3>
           <p>ぷよぷよのプロとして、テレビ番組に出演。</p>
+          <a class="card-link" href="https://natalie.mu/owarai/news/517057" target="_blank" rel="noopener" aria-label="BSJapanext「三四郎のGG道場」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>テレビ</span></div>
+        </li>
+        <li class="card c-bangumi" data-cat="bangumi">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2023-01-28">2023.01</time></div>
+          <h3>セガ公式番組「ぷよの日2023生放送」</h3>
+          <p>公式大会の決勝トーナメント出場選手として、インタビューに登場。</p>
+          <a class="card-link" href="https://game8.jp/articles/566750" target="_blank" rel="noopener" aria-label="セガ公式番組「ぷよの日2023生放送」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>配信</span><span>セガ</span></div>
         </li>
         <li class="card c-bangumi" data-cat="bangumi">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2022-12-25">2022.12</time></div>
           <h3>セガ公式番組「ぷよぷよオンエア（仮）#3」</h3>
           <p>eスポーツのコーナーに出演。</p>
+          <a class="card-link" href="https://puyopuyoquest.sega-net.com/info/detail/000888.html" target="_blank" rel="noopener" aria-label="セガ公式番組「ぷよぷよオンエア（仮）#3」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>配信</span><span>セガ</span></div>
         </li>
         <li class="card c-bangumi" data-cat="bangumi">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2022-11">2022.11</time></div>
           <h3>日本テレビ「ぶらり途中下車の旅」</h3>
           <p>コーチを務めるeスポーツジムの紹介で出演。</p>
+          <a class="card-link" href="https://www.ntv.co.jp/burari/articles/227r7i3rkrytkhoc0sm.html#spot04" target="_blank" rel="noopener" aria-label="日本テレビ「ぶらり途中下車の旅」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           <div class="tags"><span>テレビ</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2022-10-29">2022.10</time></div>
+          <h3>ぷよぷよeスポーツ グランベリーパークハロウィン杯</h3>
+          <p>商業施設で開かれたハロウィンの大会に、プロ選手として出演。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/11775" target="_blank" rel="noopener" aria-label="ぷよぷよeスポーツ グランベリーパークハロウィン杯の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span><span>子ども向け</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2022-10">2022.10</time></div>
+          <h3>全国都道府県対抗eスポーツ選手権 2022 TOCHIGI ぷよぷよ部門 選手交流会</h3>
+          <p>全国大会に出場する選手との交流会に、プロ選手として参加。</p>
+          <div class="tags"><span>大会</span><span>交流会</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2022-09-24">2022.09</time></div>
+          <h3>東京ヴェルディ「セガサミーDAY」ぷよぷよeスポーツ体験ブース</h3>
+          <p>サッカーの試合会場の体験ブースで、来場者にぷよぷよをコーチング。</p>
+          <div class="tags"><span>スポーツ</span><span>セガ</span></div>
+        </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2022-08-27">2022.08</time></div>
+          <h3>全国都道府県対抗eスポーツ選手権 2022 TOCHIGI ぷよぷよ部門 北信越ブロック代表決定戦</h3>
+          <p>都道府県対抗の全国大会に向けた予選で、試合を解説。</p>
+          <div class="tags"><span>大会</span><span>自治体</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2022-08-18">2022.08</time></div>
+          <h3>セガサミーカップ2022 ぷよぷよeスポーツ体験会</h3>
+          <p>北海道のゴルフトーナメントの会場で、ぷよぷよの体験コーナーを担当。</p>
+          <a class="card-link" href="https://x.com/EsportsSega/status/1560433964732796928" target="_blank" rel="noopener" aria-label="セガサミーカップ2022 ぷよぷよeスポーツ体験会の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>会場</span><span>セガ</span></div>
+        </li>
+        <li class="card c-bangumi" data-cat="bangumi">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2022-07-29">2022.07</time></div>
+          <h3>セガ公式YouTube番組「セガにゅー」7月放送回</h3>
+          <p>番組の企画で、MCと「ぷよぷよテトリス2」で対戦。</p>
+          <a class="card-link" href="https://youtu.be/cksvvo55f28" target="_blank" rel="noopener" aria-label="セガ公式YouTube番組「セガにゅー」7月放送回の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>配信</span><span>セガ</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2022-07-24">2022.07</time></div>
+          <h3>ｅスポーツ体験～ｅコミュニケーション～ 茨城県笠間市</h3>
+          <p>地域交流センターで、プロのデモンストレーションとeスポーツ体験会を担当。</p>
+          <div class="tags"><span>地域</span><span>体験会</span></div>
+        </li>
+        <li class="card c-bangumi" data-cat="bangumi">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2022-07-05">2022.07</time></div>
+          <h3>セガ公式番組「ぷよぷよオンエア（仮）#2」</h3>
+          <p>番組にゲストとして出演。</p>
+          <a class="card-link" href="https://www.sega.jp/topics/detail/220628_1/" target="_blank" rel="noopener" aria-label="セガ公式番組「ぷよぷよオンエア（仮）#2」の関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>配信</span><span>セガ</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2022-05-03">2022.05</time></div>
+          <h3>イオンモール川口 eスポーツ大会＆スコアアタックチャレンジ</h3>
+          <p>商業施設のeスポーツイベントに、プロ選手として出演。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/11123" target="_blank" rel="noopener" aria-label="イオンモール川口 eスポーツ大会＆スコアアタックチャレンジの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>商業施設</span></div>
+        </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2022-01-09">2022.01</time></div>
+          <h3>イオンモール川口「ぷよぷよeスポーツ大会＆体験会」</h3>
+          <p>商業施設のぷよぷよ大会で、試合を解説。</p>
+          <div class="tags"><span>商業施設</span></div>
         </li>
         <li class="card c-bangumi" data-cat="bangumi">
           <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-tv"/></svg>番組・配信</span><time datetime="2021-07-26">2021.07</time></div>
           <h3>忍ism Gaming 配信番組「ぷよラボNEXT」</h3>
-          <p>ぷよぷよの配信番組に出演。</p>
+          <p>全45回のぷよぷよの配信番組にてMC出演。</p>
           <div class="tags"><span>配信</span></div>
+        </li>
+        <li class="card c-taiken" data-cat="taiken">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-hand"/></svg>体験・教室</span><time datetime="2020-10-31">2020.10</time></div>
+          <h3>大井町商店街 ハロウィンイベント</h3>
+          <p>商店街のお祭りで、積み方講座と来場者との対戦を担当。</p>
+          <a class="card-link" href="https://ooimachi.jp/halloween/halloween2020/" target="_blank" rel="noopener" aria-label="大井町商店街 ハロウィンイベントの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>お祭り</span><span>セガ</span></div>
+        </li>
+        <li class="card c-kaisetsu" data-cat="kaisetsu">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-mic"/></svg>実況・解説</span><time datetime="2020-02-20">2020.02</time></div>
+          <h3>eスポーツセミナー 六本木アカデミーヒルズ</h3>
+          <p>森ビル主催eスポーツセミナーの模擬大会で、実況・解説を担当。</p>
+          <a class="card-link" href="https://puyo-camp.jp/events/8357" target="_blank" rel="noopener" aria-label="eスポーツセミナー 六本木アカデミーヒルズの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>会場</span><span>セガ</span></div>
+        </li>
+        <!-- 非表示（2026-10-30 でるたさん指示）。戻すときは、この行と下の閉じ記号の行を消す
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2020-01-16">2020.01</time></div>
+          <h3>上野BPT コミュニティイベント 渋谷パルコ</h3>
+          <p>毎週開いている対戦会を、セガ主催のコミュニティイベントとして開催。</p>
+          <div class="tags"><span>商業施設</span><span>セガ</span></div>
+        </li>
+        -->
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2019-08">2019.08</time></div>
+          <h3>バンコク日本博（タイ）</h3>
+          <p>タイ・バンコクの日本文化イベントで、ぷよぷよのステージに出演。</p>
+          <div class="tags"><span>海外</span><span>セガ</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2019-08-03">2019.08</time></div>
+          <h3>第3回全国エンタメまつり（ぜんため）eスポーツステージ</h3>
+          <p>岐阜のエンタメのお祭りで、ぷよぷよのステージに出演。</p>
+          <a class="card-link" href="https://prtimes.jp/main/html/rd/p/000002813.000005397.html" target="_blank" rel="noopener" aria-label="第3回全国エンタメまつり（ぜんため）eスポーツステージの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>お祭り</span><span>セガ</span></div>
+        </li>
+        <li class="card c-guest" data-cat="guest">
+          <div class="card-top"><span class="cat"><svg aria-hidden="true"><use href="#i-star"/></svg>ゲスト出演</span><time datetime="2019-04-14">2019.04</time></div>
+          <h3>北海道eスポーツフェスティバル 札幌ファクトリーホール</h3>
+          <p>北海道のeスポーツイベントに、プロ選手として出演。</p>
+          <a class="card-link" href="https://www.hht.ac.jp/blog/48786/" target="_blank" rel="noopener" aria-label="北海道eスポーツフェスティバル 札幌ファクトリーホールの関連ページを開く（別のサイト）" title="関連ページを開く（別のサイト）">リンク<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="tags"><span>会場</span><span>セガ</span></div>
         </li>
       </ul>
       <div class="more"><button class="btn btn-ghost" type="button" id="more-btn" aria-controls="cards" aria-expanded="false">すべて見る</button></div>
@@ -350,7 +600,7 @@ footer a{color:var(--muted)}
       <div class="bento">
         <div class="panel intro">
           <h3>delta（デルタ）について</h3>
-          <p>2018年からJeSU公認のぷよぷよプロプレイヤーとして活動。公式大会で優勝6回、年間王者2回。商業施設でのゲーム大会や大会配信での<strong>実況・解説</strong>、ゲーム体験イベントでの<strong>はじめての方へのレクチャー</strong>、学校での講演や施設での講座、テレビ・配信番組への出演を担当してきた。ファミリー層やゲームにはじめて触れる方から、コアなファンまで。会場と客層に合わせて、ぷよぷよの楽しさを伝える。</p>
+          <p>2018年からJeSU公認のぷよぷよプロプレイヤーとして活動。公式大会での優勝回数は多数、年間王者2回。自身のYouTubeチャンネルでは主にぷよぷよの講座動画をアップロード。公式コミュニティサイト「ぷよぷよキャンプ」での攻略記事の執筆や、交流会・対戦会の開催を通じて、コミュニティにも貢献。商業施設でのeスポーツ大会や大会配信での実況・解説、ゲーム体験イベントでのはじめての方へのレクチャー、学校での講演や施設での講座、テレビ・配信番組への出演など、活動は多岐にわたる。ファミリー層やゲームにはじめて触れる方から、コアなファンまで、会場や視聴者層に合わせて、ぷよぷよの楽しさを伝えることが得意。</p>
         </div>
 
         <div class="panel" id="results">
@@ -379,8 +629,8 @@ footer a{color:var(--muted)}
             <li><time datetime="2026-10-11">2026年10月</time><span>ぷよぷよeスポーツU-15「ギーゴカップ」SEASON4 スマーク伊勢崎</span></li>
             <li><time datetime="2026-09-26">2026年9月</time><span>愛知・名古屋アジア大会eスポーツ競技 日本語中継配信</span></li>
             <li><time datetime="2026-08">2026年8月</time><span>東三河eスポーツチャレンジ2026</span></li>
-            <li><time datetime="2026-07-31">2026年7月</time><span>日本eスポーツ協会「HPSC・eスポーツラボ」メディア発表会</span></li>
-            <li><time datetime="2026-04-24">2026年4月</time><span>BIPROGY労働組合「ぷよっと交流eSportsフェス2026」</span></li>
+            <li><time datetime="2026-07-31">2026年7月</time><span>日本eスポーツ協会「HPSC ESPORTS LAB」メディア発表会</span></li>
+            <li><time datetime="2026-04-24">2026年4月</time><span>企業交流イベント「ぷよっと交流eSportsフェス2026」</span></li>
             <li><time datetime="2026-02-07">2026年2月</time><span>埼玉県「SAITAMA e-sportsリンクフェス2026」</span></li>
             <li><time datetime="2026-02-01">2026年2月</time><span>なごやeスポーツチャレンジ</span></li>
             <li><time datetime="2025-12-21">2025年12月</time><span>ぷよぷよeスポーツU-15「ギーゴカップ」SEASON3 グランドチャンピオンシップ</span></li>
@@ -455,7 +705,7 @@ footer a{color:var(--muted)}
 /* ニュース：種類で絞り込み（2026-10-29）
    ・どのタブも、最初は6件まで表示する
    ・6件を超えたときだけ「すべて見る」ボタンを出し、「すべて見る」⇔「閉じる」を切り替える
-   ・種類別のタブは今はどれも6件以下なのでボタンは出ない。カードが増えて7件以上になると自動で出る */
+   ・2026-10-29 にカードを50件に増やしたため（2026-10-30 に1件非表示にして表示は49件）、今はどのタブにもボタンが出る（7件以上あるタブだけに自動で出る） */
 (function(){
   var SHOW=6;
   var cards=[].slice.call(document.querySelectorAll('#cards .card'));
